@@ -22,11 +22,11 @@ namespace InstaSharp.Endpoints {
         /// <param name="mediaId">The id of the media about which to retrieve data</param>
         /// <param name="count">Max number of media to return.</param>
         /// <param name="min_id">Return media before this min_id.</param>
-        public Task<MediaResponse> Recent(int geoId, int? count = null, string min_id = "") {
+        public Task<MediasResponse> Recent(int geoId, int? count = null, string min_id = "") {
             var request = base.Request(string.Format("{0}/media/recent", geoId));
             request.AddParameter("count", count);
             request.AddParameter("min_id", min_id);
-            return base.Client.ExecuteAsync<MediaResponse>(request);
+            return base.Client.ExecuteAsync<MediasResponse>(request);
         }
     }
 }

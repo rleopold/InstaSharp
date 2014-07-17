@@ -3,6 +3,7 @@ using InstaSharp.Models.Responses;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace InstaSharp.Endpoints
 {
@@ -45,5 +46,52 @@ namespace InstaSharp.Endpoints
 
             return client.ExecuteAsync<SubscriptionsResponse>(request);
         }
+
+        public Task<SubscriptionsResponse> CreateGeographySubscription(double lattitude, double longitude, double radius)
+        {
+            var request = CreateSubscriptionBase();
+
+            request.Content = new FormUrlEncodedContent(new[] 
+            {
+                new KeyValuePair<string,string>("aspect", Aspect.Media.ToString().ToLower()),
+                new KeyValuePair<string,string>("callback_url", config.CallbackUri),
+                new KeyValuePair<string,string>("object", Object.Geography.ToString().ToLower()),
+                new KeyValuePair<string,string>("lat", lattitude.ToString()),
+                new KeyValuePair<string,string>("lng", longitude.ToString()),
+                new KeyValuePair<string,string>("radius", radius.ToString())
+
+            });
+
+            return client.ExecuteAsync<SubscriptionsResponse>(request);
+        }
+
+        public Task<SubscriptionsResponse> CreateTagSubscription(string tag)
+        {
+            var request = CreateSubscriptionBase();
+
+            request.Content = new FormUrlEncodedContent(new[] {
+                new KeyValuePair<string,string>("aspect", Aspect.Media.ToString().ToLower()),
+                new KeyValuePair<string,string>("callback_url", config.CallbackUri),
+                new KeyValuePair<string,string>("object", Object.Tag.ToString().ToLower()),
+                new KeyValuePair<string,string>("object_id", tag)
+            });
+
+            return client.ExecuteAsync<SubscriptionsResponse>(request);
+        }
+
+        private HttpRequestMessage CreateSubscriptionBase()
+        {
+            // create a new guid that uniquely identifies this subscription request
+            var verifyToken = Guid.NewGuid().ToString(); // might need to record this somewhere??
+            var request = new HttpRequestMessage { Method = HttpMethod.Post };
+            request.RequestUri = new Uri("https://api.instagram.com/v1/subscriptions/");
+
+            request.AddParameter("verify_token", verifyToken);
+            request.AddParameter("client_id", config.ClientId);
+            request.AddParameter("client_secret", config.ClientSecret);
+
+            return request;
+        }
+
     }
 }

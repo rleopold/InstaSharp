@@ -7,6 +7,6 @@ namespace InstaSharp.Models.Responses {
     public class SubscriptionsResponse : IResponse {
 
         public Meta Meta { get; set; }
-        public List<Subscription> Data { get; set; }
+        public Subscription Data { get; set; }
     }
 }
