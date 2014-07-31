@@ -31,6 +31,17 @@ namespace InstaSharp.Endpoints
             client = new HttpClient {BaseAddress = new Uri(config.RealTimeApi)};
         }
 
+        public Task<SubscriptionsResponse> List()
+        {
+            var request = new HttpRequestMessage { Method = HttpMethod.Get };
+            request.RequestUri = new Uri(config.RealTimeApi);
+
+            request.AddParameter("client_id", config.ClientId);
+            request.AddParameter("client_secret", config.ClientSecret);
+
+            return client.ExecuteAsync<SubscriptionsResponse>(request);
+        }
+
         public Task<SubscriptionResponse> Create(Object type, Aspect aspect)
         {
             // create a new guid that uniquely identifies this subscription request
