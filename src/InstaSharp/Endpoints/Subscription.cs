@@ -31,7 +31,7 @@ namespace InstaSharp.Endpoints
             client = new HttpClient {BaseAddress = new Uri(config.RealTimeApi)};
         }
 
-        public Task<SubscriptionsResponse> Create(Object type, Aspect aspect)
+        public Task<SubscriptionResponse> Create(Object type, Aspect aspect)
         {
             // create a new guid that uniquely identifies this subscription request
             var verifyToken = Guid.NewGuid().ToString();
@@ -44,10 +44,10 @@ namespace InstaSharp.Endpoints
             request.AddParameter("verify_token", verifyToken);
             request.AddParameter("callback_url", config.CallbackUri);
 
-            return client.ExecuteAsync<SubscriptionsResponse>(request);
+            return client.ExecuteAsync<SubscriptionResponse>(request);
         }
 
-        public Task<SubscriptionsResponse> CreateGeographySubscription(double lattitude, double longitude, double radius)
+        public Task<SubscriptionResponse> CreateGeographySubscription(double lattitude, double longitude, double radius)
         {
             var request = CreateSubscriptionBase();
 
@@ -62,10 +62,10 @@ namespace InstaSharp.Endpoints
 
             });
 
-            return client.ExecuteAsync<SubscriptionsResponse>(request);
+            return client.ExecuteAsync<SubscriptionResponse>(request);
         }
 
-        public Task<SubscriptionsResponse> CreateTagSubscription(string tag)
+        public Task<SubscriptionResponse> CreateTagSubscription(string tag)
         {
             var request = CreateSubscriptionBase();
 
@@ -76,7 +76,7 @@ namespace InstaSharp.Endpoints
                 new KeyValuePair<string,string>("object_id", tag)
             });
 
-            return client.ExecuteAsync<SubscriptionsResponse>(request);
+            return client.ExecuteAsync<SubscriptionResponse>(request);
         }
 
         private HttpRequestMessage CreateSubscriptionBase()

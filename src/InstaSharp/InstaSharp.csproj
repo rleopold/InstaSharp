@@ -53,9 +53,10 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Hub.cs" />
     <Compile Include="Models\Resolution.cs" />
+    <Compile Include="Models\Responses\SubscriptionsResponse.cs" />
     <Compile Include="Models\Video.cs" />
     <Compile Include="Models\Realtime.cs" />
-    <Compile Include="Models\Responses\SubscriptionsResponse.cs" />
+    <Compile Include="Models\Responses\SubscriptionResponse.cs" />
     <Compile Include="Models\Responses\TestResponse.cs" />
     <Compile Include="OAuth.cs" />
     <Compile Include="InstagramConfig.cs" />
@@ -119,7 +120,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="InstaSharp.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
